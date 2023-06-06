@@ -10,11 +10,11 @@ train_data = train_data / 255
 test_data = test_data / 255
 
 
-model = tf.keras.Sequential({
+model = tf.keras.Sequential([
     tf.keras.layers.Flatten(input_shape=(28,28)),
     tf.keras.layers.Dense(128, activation = 'relu'),
     tf.keras.layers.Dense(10)
-})
+])
 
 
 model.compile(optimizer = 'adam',
