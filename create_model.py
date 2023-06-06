@@ -23,4 +23,7 @@ model.compile(optimizer = 'adam',
 
 model.fit(train_data, train_labels, epochs = 8)
 
-model.save('model.h5')
+
+test_loss, test_acc = model.evaluate(test_data,  test_labels, verbose=2)
+
+print('\nTest accuracy:', test_acc)
