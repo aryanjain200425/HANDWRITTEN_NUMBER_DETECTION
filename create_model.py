@@ -23,7 +23,11 @@ model.compile(optimizer = 'adam',
 
 model.fit(train_data, train_labels, epochs = 8)
 
+#TO TEST THE MODEL
+# test_loss, test_acc = model.evaluate(test_data,  test_labels, verbose=2)
 
-test_loss, test_acc = model.evaluate(test_data,  test_labels, verbose=2)
+# print('\nTest accuracy:', test_acc)
 
-print('\nTest accuracy:', test_acc)
+
+#TO SAVE THE CREATED MODEL
+model.save("model.h5")
