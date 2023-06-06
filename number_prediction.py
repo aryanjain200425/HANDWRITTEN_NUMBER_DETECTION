@@ -9,13 +9,19 @@ screen = pygame.display.set_mode((800,800))
 pygame.display.set_caption("AI Number Detection")
 
 
+#Color variables
+
+black = (0,0,0)
+white = (255,255,255)
+
+
 
 # inital variable
 isDrawing = False
 
 screen.fill((255,255,255))
 
-drawColor = (0,0,0)
+drawColor = black
 
 running = True
 
@@ -37,7 +43,7 @@ while running:
             
             if event.key == pygame.K_a: #Drawing
                 isDrawing = True
-                drawColor = (0,0,0)
+                drawColor = black
                 width = 50
 
             if event.key == pygame.K_0: #Clear the screen
@@ -45,7 +51,7 @@ while running:
             
             if event.key == pygame.K_c: #Erasing
                 isDrawing = True
-                drawColor = (255,255,255)
+                drawColor = white
                 width = 34
 
         if event.type == pygame.KEYUP: #Stopped drawing
