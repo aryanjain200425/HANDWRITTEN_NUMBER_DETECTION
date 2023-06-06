@@ -2,11 +2,10 @@ import os
 import pygame
 import sys
 import tkinter as tk
-from pygame.locals import *
+
 
 
 #Color variables
-
 black = (0,0,0)
 white = (255,255,255)
 
@@ -32,62 +31,54 @@ os.environ['SDL_VIDEODRIVER'] = 'windib'  # Set the Pygame video driver to windi
 
 screen = pygame.display.set_mode((700, 500))  # Create a Pygame display surface within the embedded frame
 
-screen.fill((255,255,255))
+screen.fill(white)
 
 
 def handle_events():
+    
     global isDrawing, drawColor, width
 
     
     for event in pygame.event.get():
         
+        # print(event.type)
+
         if event.type == pygame.QUIT:
             
             pygame.quit()
             root.quit()
 
-        
 
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN: #Drawing
+            isDrawing = True
+            drawColor = black
+            width = 50
 
-            print("DOWN DETECT")
-            
-            if event.key == pygame.K_a: #Drawing
-                print("HIHI")
-                isDrawing = True
-                drawColor = black
-                width = 50
+        if event.type == pygame.MOUSEBUTTONUP: #Stopped drawing
+            isDrawing = False
 
-            if event.key == pygame.K_0: #Clear the screen
-                screen.fill((255,255,255))
-            
-            if event.key == pygame.K_c: #Erasing
-                isDrawing = True
-                drawColor = white
-                width = 34
-
-        if event.type == pygame.KEYUP: #Stopped drawing
-            if event.key == pygame.K_a or event.key == pygame.K_c:
-                isDrawing = False
 
 
 
 
 def update_surface():
+    
     global isDrawing, drawColor, width
     if isDrawing:
-        print("NONON")
-    mouse_x, mouse_y = pygame.mouse.get_pos()
-    pygame.draw.circle(surface=screen, color=white, center=(mouse_x, mouse_y), radius=width)
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        pygame.draw.circle(surface=screen, color=white, center=(mouse_x, mouse_y), radius=width)
 
     pygame.display.update()
 
 
 
 def game_loop():
+    pygame.event.pump()
     handle_events()
     update_surface()
     root.after(10, game_loop)  # Repeat the loop after a delay (in milliseconds)
+
+
 
 game_loop()
 
