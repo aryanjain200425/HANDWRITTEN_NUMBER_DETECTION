@@ -18,20 +18,25 @@ drawColor = black
 
 width = 50
 
+screenWidth, screenHeight = 700, 700
+
+
 
 
 root = tk.Tk()
-root.geometry("800x600")  # Set the size of the Tkinter window
+root.geometry("800x800")  # Set the size of the Tkinter window
 
-embed = tk.Frame(root, width=700, height=500)  # Set the size of the embedded Pygame window
+embed = tk.Frame(root, width= screenWidth, height=screenHeight)  # Set the size of the embedded Pygame window
 embed.pack(side=tk.LEFT)
 
 os.environ['SDL_WINDOWID'] = str(embed.winfo_id())  # Pass the window ID to Pygame
 os.environ['SDL_VIDEODRIVER'] = 'windib'  # Set the Pygame video driver to windib
 
-screen = pygame.display.set_mode((700, 500))  # Create a Pygame display surface within the embedded frame
+pygame.init()
+screen = pygame.display.set_mode((screenWidth, screenHeight))  # Create a Pygame display surface within the embedded frame
 
-screen.fill(white)
+# pygame.draw.rect(surface=screen, color=white, rect=(0,0,700,500))
+
 
 
 def handle_events():
@@ -41,7 +46,6 @@ def handle_events():
     
     for event in pygame.event.get():
         
-        # print(event.type)
 
         if event.type == pygame.QUIT:
             
@@ -57,6 +61,10 @@ def handle_events():
         if event.type == pygame.MOUSEBUTTONUP: #Stopped drawing
             isDrawing = False
 
+        if event.type == pygame.MOUSEWHEEL:
+            screen.fill(white)
+            drawColor = black
+
 
 
 
@@ -64,9 +72,10 @@ def handle_events():
 def update_surface():
     
     global isDrawing, drawColor, width
+    
     if isDrawing:
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        pygame.draw.circle(surface=screen, color=white, center=(mouse_x, mouse_y), radius=width)
+        pygame.draw.circle(surface=screen, color=drawColor, center=(mouse_x, mouse_y), radius=width)
 
     pygame.display.update()
 
@@ -79,8 +88,27 @@ def game_loop():
     root.after(10, game_loop)  # Repeat the loop after a delay (in milliseconds)
 
 
+screen.fill(white)
+pygame.display.flip()
+
 
 game_loop()
+
+# canvas = tk.Canvas(root, width=700, height=500)
+# canvas.pack(side=tk.LEFT)
+
+# def draw_pygame_surface():
+#     # Convert the Pygame surface to an image and draw it on the Tkinter canvas
+#     img = pygame.surfarray.array3d(screen).swapaxes(0, 1)
+#     img = tk.PhotoImage(master=canvas, width=700, height=500)
+#     canvas.create_image(350, 250, image=img, anchor=tk.CENTER)
+#     canvas.img = img  # Store the reference to the image to prevent garbage collection
+
+# def update_canvas():
+#     draw_pygame_surface()
+#     root.after(10, update_canvas)
+
+# update_canvas()
 
 
 root.mainloop()
