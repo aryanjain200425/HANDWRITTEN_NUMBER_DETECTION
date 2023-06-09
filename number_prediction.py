@@ -2,6 +2,10 @@ import os
 import pygame
 import sys
 import tkinter as tk
+import keras
+from PIL import Image
+from keras.datasets import mnist
+import numpy as np
 
 
 
@@ -35,7 +39,7 @@ os.environ['SDL_VIDEODRIVER'] = 'windib'  # Set the Pygame video driver to windi
 pygame.init()
 screen = pygame.display.set_mode((screenWidth, screenHeight))  # Create a Pygame display surface within the embedded frame
 
-# pygame.draw.rect(surface=screen, color=white, rect=(0,0,700,500))
+
 
 
 
@@ -89,10 +93,28 @@ def game_loop():
 
 
 def predictNum():
-    print("Working")
+    pygame.image.save(screen,"predict_image.jpeg")
 
-screen.fill(white)
-pygame.display.flip()
+    model = keras.models.load_model("model.h5")
+
+    image = Image.open("predict_image.jpeg")
+
+    
+    new_image = image.resize((28,28)).convert("L") #Resizing to 28X28 and converting to BW
+
+    (_, _), (test_data, _) = mnist.load_data()
+
+    inverted_image = Image.eval(new_image, lambda px: 255 - px)
+
+    new_test_data = np.insert(test_data, 0, inverted_image, axis=0)
+
+    predictions = model.predict(new_test_data)
+
+    print(np.argmax(predictions[0]))
+
+
+
+
 
 button = tk.Button(text="Predict", command=predictNum)
 
