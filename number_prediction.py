@@ -88,27 +88,20 @@ def game_loop():
     root.after(10, game_loop)  # Repeat the loop after a delay (in milliseconds)
 
 
+def predictNum():
+    print("Working")
+
 screen.fill(white)
 pygame.display.flip()
+
+button = tk.Button(text="Predict", command=predictNum)
+
+button.pack(side='left', fill="x", padx=10, pady=10)
+
 
 
 game_loop()
 
-# canvas = tk.Canvas(root, width=700, height=500)
-# canvas.pack(side=tk.LEFT)
-
-# def draw_pygame_surface():
-#     # Convert the Pygame surface to an image and draw it on the Tkinter canvas
-#     img = pygame.surfarray.array3d(screen).swapaxes(0, 1)
-#     img = tk.PhotoImage(master=canvas, width=700, height=500)
-#     canvas.create_image(350, 250, image=img, anchor=tk.CENTER)
-#     canvas.img = img  # Store the reference to the image to prevent garbage collection
-
-# def update_canvas():
-#     draw_pygame_surface()
-#     root.after(10, update_canvas)
-
-# update_canvas()
 
 
 root.mainloop()
