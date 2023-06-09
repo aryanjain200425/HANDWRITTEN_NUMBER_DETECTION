@@ -110,7 +110,7 @@ def predictNum():
 
     predictions = model.predict(new_test_data)
 
-    print(np.argmax(predictions[0]))
+    label.config(text=np.argmax(predictions[0]))
 
 
 
@@ -119,6 +119,12 @@ def predictNum():
 button = tk.Button(text="Predict", command=predictNum)
 
 button.pack(side='left', fill="x", padx=10, pady=10)
+
+label = tk.Label(root, text="")
+label.pack(side="left")
+
+
+
 
 
 
