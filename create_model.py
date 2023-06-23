@@ -1,5 +1,7 @@
 import tensorflow as tf
 from keras.datasets import mnist
+import random
+from PIL import Image
 
 
 (train_data, train_labels), (test_data, test_labels) = mnist.load_data()
@@ -8,6 +10,13 @@ from keras.datasets import mnist
 #Simplifying the data
 train_data = train_data / 255
 test_data = test_data / 255
+
+
+for i in range(len(train_data)):
+   pil_image = Image.fromarray(train_data[i])
+   randDeg = random.randint(-30,30)
+   pil_image = pil_image.rotate(randDeg)
+   train_data[i] = pil_image
 
 
 model = tf.keras.Sequential([
